@@ -73,12 +73,13 @@ const TimerComponent = React.forwardRef<any, TimerProps>((props, ref) => {
     } else {
       if (iSeconds >= 60) {
         minute.current = ~~(iSeconds / 60);
+      }else {
+        minute.current = 0;
+      }
         const times = iSeconds % 60;
         initTime(times);
-      } else {
-        seconds.current = iSeconds;
-      }
-    }
+        seconds.current = times;
+      } 
   }, []);
 
   const init = useCallback(() => {
@@ -168,21 +169,15 @@ const TimerComponent = React.forwardRef<any, TimerProps>((props, ref) => {
           }${seconds.current}`}</Text>
         );
       } else {
-        if (minute.current > 0) {
           return (
             <Text style={[styles.text, textStyle, font()]}>{`${
+              minute.current.toString().length === 1 ? '0' : ''
+            }${
               minute.current
             }:${seconds.current.toString().length === 1 ? '0' : ''}${
               seconds.current
             }`}</Text>
           );
-        } else {
-          return (
-            <Text
-              style={[styles.text, textStyle, font()]}
-            >{`${seconds.current}`}</Text>
-          );
-        }
       }
     } else {
       return (
